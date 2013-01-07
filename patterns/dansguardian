@@ -1,0 +1,12 @@
+ALPHA [a-zA-Z]+
+# accomidates unpadded seconds with [0-5]?
+DGSECOND (?:(?:[0-5]?[0-9]|60)(?:[.,][0-9]+)?)
+# accomodates unpadded hour with [01]?
+DGHOUR (?:2[0123]|[01]?[0-9])
+
+DGTIME (?!<[0-9])%{DGHOUR}:%{MINUTE}(?::%{SECOND})(?![0-9])
+DANSGUARDIAN_TIMESTAMP %{YEAR}\.%{MONTHNUM}\.%{MONTHDAY} %{DGTIME}
+
+
+
+DANSGUARDIANLOG %{IP:http_clientip}\s%{URI:http_uri}(?:\s\*%{ALPHA:dg_operation}\*)?(?:\sBanned\ssite:\s%{URIHOST:banned_site})?(?:\s+%{ALPHA:http_command})\s%{NUMBER}?\s%{NUMBER}\s+%{NUMBER}\s%{POSINT:http_response_code}
